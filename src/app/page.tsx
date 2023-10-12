@@ -5,10 +5,11 @@ import ModalAdd from "@/components/modalAdd";
 import ModalEdit from "@/components/modalView";
 import { prisma } from "@/db";
 import { writeFile } from "fs/promises";
-
+import { File } from "buffer";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { join } from "path";
+import { stringify } from "querystring";
 
 async function deleteItem(id:string) {
     "use server"
@@ -19,6 +20,43 @@ async function deleteItem(id:string) {
       })
       redirect('/')
       
+}
+
+async function updateItem(id:string, name:string, position:string, age:string, sex:string, file:string) {
+    "use server"
+
+    // const files: File | null = file as unknown as File
+
+    // if(!files){
+    //     throw new Error('No file uploaded')
+    // }
+
+    // const bytes = await files.arrayBuffer()
+    // const buffer = Buffer.from(bytes)
+
+    // const path = join('public/', files.name)
+    // const profile = join('/', files.name)
+    // await writeFile(path, buffer)
+    // console.log('open ${path} to see the upload file')
+
+    
+
+
+    await prisma.emp_db.updateMany({
+        where: {
+          id: {
+            contains: id,
+          },
+        },
+        data: {
+          emp_name: name,
+          emp_position: position,
+          emp_age: age,
+          emp_gender: sex,
+          emp_profile: file,
+        },
+      })
+      //redirect('/')
 }
 async function emp_add(emp_file:string, emp_names:string, emp_positions:string, emp_ages:string, emp_sexs:string ) {
     "use server"
@@ -40,7 +78,7 @@ async function emp_add(emp_file:string, emp_names:string, emp_positions:string, 
          
 
 // inutting into database
-        await prisma.emp_db.create({ data: { emp_name: emp_names, emp_position: emp_positions, emp_age: 33, emp_gender :emp_sexs, emp_profile: emp_file
+        await prisma.emp_db.create({ data: { emp_name: emp_names, emp_position: emp_positions, emp_age: emp_ages, emp_gender :emp_sexs, emp_profile: emp_file
         }
         })
        
@@ -78,7 +116,7 @@ export default async function Home() {
                     </thead>
                     <tbody>
                         {emp_db.map(emp_db => (
-                          <EmpTable {...emp_db} deleteItem={deleteItem} />
+                          <EmpTable {...emp_db} updateItem={updateItem} deleteItem={deleteItem} />
                         ))}
 
                         
@@ -89,3 +127,7 @@ export default async function Home() {
           </>
   )
 }
+function sanitize(file: string) {
+    throw new Error("Function not implemented.");
+}
+

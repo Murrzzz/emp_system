@@ -14,7 +14,7 @@ model Emp_db {
   id           String   @id @default(uuid())
   emp_name     String
   emp_position String
-  emp_age      Int
+  emp_age      String
   emp_gender   String
   emp_profile  String
   createdAt    DateTime @default(now())

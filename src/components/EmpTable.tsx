@@ -10,12 +10,13 @@ type EmpTableProps = {
     id: string
     emp_name: string
     emp_position: string
-    emp_age: number
+    emp_age: string
     emp_gender: string
     emp_profile: string
     deleteItem:(id:string) =>void
+    updateItem:(id:string, name:string, position:string, age:string, sex:string, file:string)=>void
 } 
-export function EmpTable({ id,emp_name,emp_position,emp_age,emp_gender,deleteItem,emp_profile}:EmpTableProps) {
+export function EmpTable({ id,emp_name,emp_position,emp_age,emp_gender,deleteItem,emp_profile, updateItem}:EmpTableProps) {
   return (
     <>
       <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -32,7 +33,7 @@ export function EmpTable({ id,emp_name,emp_position,emp_age,emp_gender,deleteIte
         <td className="px-6 py-4">
 
         
-          <ModalView key={id} id={id} emp_profile={emp_profile} emp_name={emp_name} emp_position={emp_position} emp_age={emp_age} emp_gender={emp_gender} {...EmpTable}/>
+          <ModalView key={id} id={id} emp_profile={emp_profile} emp_name={emp_name} updateItem={updateItem} emp_position={emp_position} emp_age={emp_age} emp_gender={emp_gender} {...EmpTable}/>
           <ModalDelete key={id} id={id} emp_profile={emp_profile} emp_name={emp_name} deleteItem={deleteItem} emp_position={emp_position} emp_age={emp_age} emp_gender={emp_gender} {...EmpTable}/>
 
         </td>

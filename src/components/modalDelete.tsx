@@ -13,7 +13,7 @@ type ModalDeleteProps = {
     id: string
     emp_name: string
     emp_position: string
-    emp_age: number
+    emp_age: string
     emp_gender: string
     emp_profile: string
     deleteItem:(id:string)=> void
@@ -21,6 +21,7 @@ type ModalDeleteProps = {
 
 
 export default function ModalDelete({id,emp_name,deleteItem}:ModalDeleteProps) {
+  
 
   const [showModal, setShowModal] = React.useState(false);
   return (

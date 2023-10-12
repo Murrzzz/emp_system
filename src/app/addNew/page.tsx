@@ -35,7 +35,7 @@ async function addEmp(data: FormData) {
            throw new Error("Invalid Name");
        }
 // inutting into database
-        await prisma.emp_db.create({ data: { emp_name: emp_name, emp_position: emp_position, emp_age: 33, emp_gender :emp_sex, emp_profile: profile
+        await prisma.emp_db.create({ data: { emp_name: emp_name, emp_position: emp_position, emp_age: emp_age, emp_gender :emp_sex, emp_profile: profile
         }
         })
        
