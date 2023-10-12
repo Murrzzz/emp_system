@@ -4,7 +4,7 @@ import { File } from "buffer";
 import { redirect } from "next/dist/server/api-utils";
 import { type } from "os";
 import { join } from "path";
-import React from "react";
+import React, { useState } from "react";
 
 type ModalViewProps = {
   id: string
@@ -27,31 +27,29 @@ export default function ModalView({ id, emp_name, emp_position, emp_age, emp_gen
   const [age, setAge] = React.useState(emp_age)
   const [sex, setSex] = React.useState(emp_gender)
   const [file, setFile] = React.useState(emp_profile)
+  const [filebase64,setFileBase64] = useState<string>(emp_profile)
 
-  async function handleSubmit() {
+  // The Magic all happens here.
+  function convertFile(files: FileList|null) {
+    if (files) {
+      const fileRef = files[0] || ""
+      const fileType: string= fileRef.type || ""
+      console.log("This file upload is of type:",fileType)
+      const reader = new FileReader()
+      reader.readAsBinaryString(fileRef)
+      reader.onload=(ev: any) => {
+        // convert it to base64
+        setFileBase64(`data:${fileType};base64,${btoa(ev.target.result)}`)
+      }
+    }
+  }
+  
+ function handleSubmit(e: any) {
+  e.preventDefault()
+    updateItem(emp_id,name,position,age,sex,filebase64)
 
-   //     taking the image
-    // const files: File | null = file as unknown as File
-
-    // if(!file){
-    //     throw new Error('No file uploaded')
-    // }
-
-    // const bytes = await files.arrayBuffer()
-    // const buffer = Buffer.from(bytes)
-
-    // const path = join('public/', files.name)
-    // const profile = join('/', files.name)
-    // await writeFile(path, buffer)
-    // console.log('open ${path} to see the upload file')
- 
-
-    const replaceText = file.replace("C:\\fakepath\\",'')
-
-    const profile = join('/', replaceText);
-
-    updateItem(emp_id,name,position,age,sex,profile)
-
+    console.log({filebase64})
+    window.location.href = "";  
 
   }
 
@@ -89,24 +87,12 @@ export default function ModalView({ id, emp_name, emp_position, emp_age, emp_gen
                 {/*body*/}
                 <div className="w-auto rounded-2xl bg-white">
                   <div className="flex flex-col gap-2 p-8">
-                      
+
                       <label className="flex cursor-pointer items-center justify-between p-1">
-                        Profile: <img src={file} alt="" className="object-contain h-48 w-96 "/>
+                        Profile: <img src={filebase64} width={300} />
                       </label>
-                      <label className="flex cursor-pointer items-center justify-between p-1">
-                        Fullname: <h1>{name}</h1>
-                      </label>
-                      <label className="flex cursor-pointer items-center justify-between p-1">
-                        Position: <h1>{position}</h1>
-                      </label>
-                      <label className="flex cursor-pointer items-center justify-between p-1">
-                        Gender <h1>{sex}</h1>
-                      </label>
-                      <label className="flex cursor-pointer items-center justify-between p-1">
-                        Age: <h1>{age}</h1>
-                      </label>
-                      <input placeholder={emp_id} value={file}  name="id" onChange={e => setEmpt_id(e.target.value)} className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-100"/>
-                      <input type="file" name="file" placeholder={file}onChange={e => setFile(e.target.value)} className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-100"/>
+                      <input placeholder={emp_id} value={filebase64} type="hidden" name="id" className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-100"/>
+                      <input type="file" name="files" placeholder={file} onChange={(e)=> convertFile(e.target.files)} className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-100"/>
                       <input placeholder={name} value={name} name="emp_name"onChange={e => setName(e.target.value)} className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-100"/>
                       <input placeholder={position} value={position} name="emp_position"onChange={e => setPosiion(e.target.value)} className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-100"/>
                       <input placeholder={age} value={age}type="number"onChange={e => setAge(e.target.value)} name="emp_age"className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 focus:ring-offset-gray-100"/>

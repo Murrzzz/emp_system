@@ -25,23 +25,6 @@ async function deleteItem(id:string) {
 async function updateItem(id:string, name:string, position:string, age:string, sex:string, file:string) {
     "use server"
 
-    // const files: File | null = file as unknown as File
-
-    // if(!files){
-    //     throw new Error('No file uploaded')
-    // }
-
-    // const bytes = await files.arrayBuffer()
-    // const buffer = Buffer.from(bytes)
-
-    // const path = join('public/', files.name)
-    // const profile = join('/', files.name)
-    // await writeFile(path, buffer)
-    // console.log('open ${path} to see the upload file')
-
-    
-
-
     await prisma.emp_db.updateMany({
         where: {
           id: {
@@ -56,7 +39,7 @@ async function updateItem(id:string, name:string, position:string, age:string, s
           emp_profile: file,
         },
       })
-      //redirect('/')
+      redirect('/')
 }
 async function emp_add(emp_file:string, emp_names:string, emp_positions:string, emp_ages:string, emp_sexs:string ) {
     "use server"
