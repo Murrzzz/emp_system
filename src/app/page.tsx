@@ -75,7 +75,7 @@ export default async function Home() {
           
             <div className="relative mx-10 mt-10 overflow-x-auto shadow-md sm:rounded-lg">
               <h1 className="flex justify-center text-2xl mx-auto my-auto over">Employee List</h1>
-                <ModalAdd emp_add={emp_add}/>
+
               <Link href='/addNew' className="inline-block mx-6 cursor-pointer rounded-md bg-gray-700 px-4 py-3 text-center text-sm font-semibold  text-white transition duration-200 ease-in-out hover:bg-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-700 focus-visible:ring-offset-2 active:scale-95">Add</Link>          
               <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
