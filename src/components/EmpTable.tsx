@@ -7,6 +7,7 @@ import ModalDelete from "./modalDelete"
 
 
 type EmpTableProps = {
+  key:string
     id: string
     emp_name: string
     emp_position: string
@@ -16,7 +17,7 @@ type EmpTableProps = {
     deleteItem:(id:string) =>void
     updateItem:(id:string, name:string, position:string, age:string, sex:string, file:string)=>void
 } 
-export function EmpTable({ id,emp_name,emp_position,emp_age,emp_gender,deleteItem,emp_profile, updateItem}:EmpTableProps) {
+export function EmpTable({ id,emp_name,emp_position,emp_age,emp_gender,deleteItem,emp_profile, updateItem, key}:EmpTableProps) {
   return (
     <>
       <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
@@ -32,8 +33,8 @@ export function EmpTable({ id,emp_name,emp_position,emp_age,emp_gender,deleteIte
         <td className="px-6 py-4">
 
         
-          <ModalView key={id} id={id} emp_profile={emp_profile} emp_name={emp_name} updateItem={updateItem} emp_position={emp_position} emp_age={emp_age} emp_gender={emp_gender} />
-          <ModalDelete key={id} id={id} emp_profile={emp_profile} emp_name={emp_name} deleteItem={deleteItem} emp_position={emp_position} emp_age={emp_age} emp_gender={emp_gender} />
+          <ModalView key={key} id={id} emp_profile={emp_profile} emp_name={emp_name} updateItem={updateItem} emp_position={emp_position} emp_age={emp_age} emp_gender={emp_gender} {...EmpTable} />
+          <ModalDelete key={key} id={id} emp_profile={emp_profile} emp_name={emp_name} deleteItem={deleteItem} emp_position={emp_position} emp_age={emp_age} emp_gender={emp_gender} {...EmpTable}  />
 
         </td>
       </tr>

@@ -11,15 +11,14 @@ import { redirect } from "next/navigation";
 import { join } from "path";
 import { stringify } from "querystring";
 
-async function deleteItem(id:string) {
+async function deleteItem(ids:string) {
     "use server"
-    const deleteUser = await prisma.emp_db.delete({
+   await prisma.emp_db.delete({
         where: {
-            id: id,
+            id: ids,
         },
       })
-      redirect('/')
-      
+      redirect('//')
 }
 
 async function updateItem(id:string, name:string, position:string, age:string, sex:string, file:string) {
@@ -99,7 +98,7 @@ export default async function Home() {
                     </thead>
                     <tbody>
                         {emp_db.map(emp_db => (
-                          <EmpTable {...emp_db} updateItem={updateItem} deleteItem={deleteItem} />
+                          <EmpTable key={emp_db.id} {...emp_db} updateItem={updateItem} deleteItem={deleteItem} />
                         ))}
 
                         
